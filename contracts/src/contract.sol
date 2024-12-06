@@ -34,10 +34,6 @@ contract Weather is ERC721URIStorage, Ownable{
         weatherImageURLs[WeatherCondition.Snowy] = "https://meteobassenormandie.fr/wp-content/uploads/2020/12/XVM7c94a5d8-1e71-11e9-a628-f5feed317e99-1.jpg";
     }
 
-    function _exists(uint256 tokenId) internal view returns (bool) {
-        return _ownerOf(tokenId) != address(0);
-    }
-
     function getConditionName(WeatherCondition condition) internal pure returns (string memory) {
         if (condition == WeatherCondition.Sunny) return "Sunny";
         if (condition == WeatherCondition.Rainy) return "Rainy";
@@ -55,7 +51,7 @@ contract Weather is ERC721URIStorage, Ownable{
     }
 
     function updateWeatherMetadata(uint256 tokenId, Data memory data) external onlyOwner {
-        require(_exists(tokenId), "Token does not exist");
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
         Data[] storage history = weatherHistory[tokenId];
         for (uint i = 0; i < history.length; i++) {
             if (history[i].timestamp == data.timestamp) {
@@ -92,8 +88,16 @@ contract Weather is ERC721URIStorage, Ownable{
         return weatherImageURLs[condition];
     }
 
+    function getWeatherImagesURL() external view returns (string[] memory) {
+        string[] memory URLs = new string [](4);
+        for (uint8 i = 0; i < 4; i+=1){
+            URLs[i] = weatherImageURLs[WeatherCondition(i)];
+        }
+        return URLs;
+    }
+
     function getWeatherHistoryById(uint256 tokenId) external view returns (Data[] memory) {
-        require(_exists(tokenId), "Token does not exist");
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
         return weatherHistory[tokenId];
     }
 

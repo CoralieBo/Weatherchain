@@ -16,6 +16,8 @@ Weatherchain is a project combining blockchain technology and weather data. This
 ![HomeSnow](./demo/snow.png)
 ![History](./demo/history.png)
 
+## Smart contract address
+[0xE9e1AF4A0353357920ECEf276B94687C0009764D](https://testnet.snowtrace.io/address/0xE9e1AF4A0353357920ECEf276B94687C0009764D)
 
 ## Installation
 
